@@ -49,4 +49,8 @@ fn test_read_exact() {
     let dyn_error = err.as_ref() as &dyn Error;
     let error_ref = crate::error::request_ref::<ReadExactError>(dyn_error).unwrap();
     assert!(matches!(error_ref, ReadExactError::ReadExactEof));
+
+    // using downcast
+    let error_ref = err.as_ref().downcast_ref::<ReadExactError>().unwrap();
+    assert!(matches!(error_ref, ReadExactError::ReadExactEof));
 }
